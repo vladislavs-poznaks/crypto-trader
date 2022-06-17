@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Console\Commands\BinancePricing;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                BinancePricing::class,
+            ]);
+        }
     }
 }

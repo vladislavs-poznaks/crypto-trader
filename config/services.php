@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'binance' => [
+        'key' => env('BINANCE_KEY'),
+        'secret' => env('BINANCE_SECRET'),
+    ],
+
 ];
