@@ -3,10 +3,6 @@
 namespace App\Services;
 
 use App\Models\Candlestick;
-use App\Models\RSICalculation;
-use Binance\API;
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
 
 class RSICalculationService
 {
@@ -17,10 +13,6 @@ class RSICalculationService
         'hour' => 72,
         'minute' => 60
     ];
-
-    public function __construct()
-    {
-    }
 
     public function process()
     {

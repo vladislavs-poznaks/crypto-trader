@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\RSICalculationCommand;
 use App\Constants\Code;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -23,6 +24,9 @@ class Kernel extends ConsoleKernel
 //                ->everyMinute();
 
             $schedule->command("vev:trade {$code->value}")
+                ->everyMinute();
+
+            $schedule->call(new RSICalculationCommand)
                 ->everyMinute();
         }
     }
