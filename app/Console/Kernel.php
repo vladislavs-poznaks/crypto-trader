@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\GlassNodeCommand;
 use App\Console\Commands\RSICalculationCommand;
 use App\Console\Commands\TransferVolumePredictionCalculationCommand;
 use App\Constants\Code;
@@ -32,6 +33,15 @@ class Kernel extends ConsoleKernel
 
             $schedule->call(new TransferVolumePredictionCalculationCommand)
                 ->everyMinute();
+
+            $schedule->call(new GlassNodeCommand('BTC', '24h', '1day'))
+                ->daily();
+
+            $schedule->call(new GlassNodeCommand('BTC', '1w', '1week'))
+                ->weekly();
+
+            $schedule->call(new GlassNodeCommand('BTC', '1month', '1month'))
+                ->monthly();
         }
     }
 
