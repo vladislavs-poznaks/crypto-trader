@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\BotTradeCommand;
 use App\Console\Commands\RSICalculationCommand;
 use App\Console\Commands\TransferVolumePredictionCalculationCommand;
 use App\Constants\Code;
@@ -23,9 +24,17 @@ class Kernel extends ConsoleKernel
         foreach ($codes as $code) {
 //            $schedule->command("vev:rates {$code->value}")
 //                ->everyMinute();
+//
+//            $schedule->command("vev:candlesticks {$code->value}")
+//                ->hourly();
 
             $schedule->command("vev:trade {$code->value}")
                 ->everyMinute();
+
+//            $schedule->call(BotTradeCommand::class, [
+//                'code' => $code->value
+//            ])
+//                ->everyMinute();
 
             $schedule->call(new RSICalculationCommand)
                 ->everyMinute();
