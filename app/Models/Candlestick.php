@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Constants\Codes;
-use App\Constants\Ranges;
+use App\Constants\Code;
+use App\Constants\Range;
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,10 +33,10 @@ class Candlestick extends Model
     ];
 
     protected $casts = [
-        'code' => Codes::class,
+        'code' => Code::class,
         'open_time' => 'datetime',
         'close_time' => 'datetime',
-        'range' => Ranges::class,
+        'range' => Range::class,
         'ignored' => 'bool',
     ];
 }

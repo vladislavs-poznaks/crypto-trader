@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Constants\Codes;
+use App\Constants\Code;
 use App\Constants\OrderSide;
 use App\Constants\OrderStatus;
 use App\Constants\OrderType;
@@ -33,6 +33,6 @@ class Order extends Model
         'type' => OrderType::class,
         'side' => OrderSide::class,
         'status' => OrderStatus::class,
-        'code' => Codes::class,
+        'code' => Code::class,
     ];
 }
