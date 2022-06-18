@@ -43,7 +43,7 @@ class BotService implements BotServiceInterface
     public function isPositionFilled(): bool
     {
         // TODO Checks portfolio if position does not exceed 5% of portfolio
-        return true;
+        return false;
     }
 
     public function processForBuy(PredictionService $service): void

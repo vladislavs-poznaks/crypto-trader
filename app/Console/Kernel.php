@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Constants\Code;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -15,8 +16,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('trader:rates')
-             ->everyMinute();
+        $codes = Code::cases();
+
+        foreach ($codes as $code) {
+//            $schedule->command("vev:rates {$code->value}")
+//                ->everyMinute();
+
+            $schedule->command("vev:trade {$code->value}")
+                ->everyMinute();
+        }
     }
 
     /**
