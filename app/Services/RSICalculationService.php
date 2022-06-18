@@ -21,8 +21,8 @@ class RSICalculationService
             ->cursor()
             ->chunk(100);
 
-        foreach($candleStickChuns as $candlesSticks) {
-            foreach($candlesSticks as $candlesStick) {
+        foreach ($candleStickChuns as $candlesSticks) {
+            foreach ($candlesSticks as $candlesStick) {
                 $this->calculate($candlesStick);
             }
         }
@@ -42,9 +42,9 @@ class RSICalculationService
         $pastCandlesticks = Candlestick::query()
             ->where('code', $candlestick->code)
             ->where('range', $candlestick->range)
-            ->where('close_time', '<',$candlestick->close_time)
-            ->orderBy('close_time','desc')
-            ->limit($this->getSize($candlestick->range))
+            ->where('close_time', '<', $candlestick->close_time)
+            ->orderBy('close_time', 'desc')
+            ->limit($this->getSize($candlestick->range->value))
             ->get();
 
         $upSimpleAverage = 0;
@@ -53,7 +53,7 @@ class RSICalculationService
         /** @var Candlestick $previousCandlestick */
         $previousCandlestick = $pastCandlesticks->shift();
 
-        foreach($pastCandlesticks as $candleStick) {
+        foreach ($pastCandlesticks as $candleStick) {
             $closeDiff = abs($candleStick->close - $previousCandlestick->close);
 
             if ($candleStick->close > $previousCandlestick->close) {
@@ -65,12 +65,13 @@ class RSICalculationService
             $previousCandlestick = $candleStick;
         }
 
-        $relativeStrength = $upSimpleAverage/$downSimpleAverage;
+        $relativeStrength = $upSimpleAverage / ($downSimpleAverage === 0 ? 1 : $downSimpleAverage);
 
-        return (100 - 100/(1+$relativeStrength));
+        return (100 - 100 / (1 + $relativeStrength));
     }
 
-    protected function getSize(string $range): int {
-        return $this->rangeSizes[$range]+1;
+    protected function getSize(string $range): int
+    {
+        return $this->rangeSizes[$range] + 1;
     }
 }
