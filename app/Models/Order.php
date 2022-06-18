@@ -35,4 +35,11 @@ class Order extends Model
         'status' => OrderStatus::class,
         'code' => Code::class,
     ];
+
+    public function getInfoAttribute()
+    {
+        $side = ucfirst($this->side->value);
+
+        return "{$side} order ({$this->code->value}) placed. | Price: {$this->price} | Quantity: {$this->ordered_quantity}";
+    }
 }
