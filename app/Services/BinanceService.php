@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Constants\Codes;
 use Binance\API;
 
 class BinanceService
@@ -26,6 +27,11 @@ class BinanceService
     public function getBalances()
     {
         return $this->api->balances($this->api->prices());
+    }
+
+    public function candlesticks(Codes $code, string $period)
+    {
+        return $this->api->candlesticks($code->value, $period);
     }
 
     public function buyLimitOrder()
