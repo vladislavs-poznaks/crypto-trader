@@ -7,7 +7,6 @@ use App\Constants\OrderSide;
 use App\Constants\OrderStatus;
 use App\Constants\OrderType;
 use App\Models\Order;
-use Binance\API;
 use Illuminate\Support\Str;
 
 class FakeBinanceService extends BinanceService

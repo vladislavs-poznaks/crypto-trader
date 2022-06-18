@@ -15,6 +15,7 @@ class GlassnodeService
     {
         $ch = curl_init();
 
+        // TODO Move to config, env
         $endpoint = "https://api.glassnode.com/v1/metrics/transactions/transfers_volume_sum";
         $params = [
             'a' => $symbol,
