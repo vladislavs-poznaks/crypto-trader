@@ -2,15 +2,12 @@
 
 namespace App\Services;
 
-use App\Constants\Codes;
-use App\Constants\OrderSide;
+use App\Constants\Code;
 use App\Constants\OrderStatus;
-use App\Constants\OrderType;
 use App\Models\Order;
 use Binance\API;
-use Illuminate\Support\Str;
 
-class BinanceService
+class BinanceService implements ExchangeServiceInterface
 {
     private API $api;
 
@@ -34,17 +31,17 @@ class BinanceService
         return $this->api->balances($this->api->prices());
     }
 
-    public function candlesticks(Codes $code, string $period)
+    public function candlesticks(Code $code, string $period)
     {
         return $this->api->candlesticks($code->value, $period);
     }
 
-    public function buyLimitOrder(Codes $code, float $price, float $quantity)
+    public function buyLimitOrder(Code $code, float $price, float $quantity)
     {
         // Real order goes here
     }
 
-    public function sellLimitOrder(Codes $code, float $price, float $quantity)
+    public function sellLimitOrder(Code $code, float $price, float $quantity)
     {
         // Real order goes here
     }

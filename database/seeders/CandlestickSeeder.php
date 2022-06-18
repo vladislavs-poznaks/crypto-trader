@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Constants\Codes;
-use App\Constants\Ranges;
+use App\Constants\Code;
+use App\Constants\Range;
 use App\Models\Candlestick;
 use App\Services\BinanceService;
 use Carbon\Carbon;
@@ -12,11 +12,11 @@ use Illuminate\Database\Seeder;
 abstract class CandlestickSeeder extends Seeder
 {
     protected array $rangesLookup = [
-        '1M' => Ranges::MONTH,
-        '1w' => Ranges::WEEK,
-        '1d' => Ranges::DAY,
-        '1h' => Ranges::HOUR,
-        '1m' => Ranges::MINUTE,
+        '1M' => Range::MONTH,
+        '1w' => Range::WEEK,
+        '1d' => Range::DAY,
+        '1h' => Range::HOUR,
+        '1m' => Range::MINUTE,
     ];
 
     /**
@@ -29,14 +29,14 @@ abstract class CandlestickSeeder extends Seeder
 
         $service = app(BinanceService::class);
 
-        foreach (Codes::cases() as $code) {
+        foreach (Code::cases() as $code) {
             $candlesticks = $service->candlesticks($code, $this->getPeriod());
 
             $this->persist($code, $candlesticks);
         }
     }
 
-    protected function persist(Codes $code, array $candlesticks): void
+    protected function persist(Code $code, array $candlesticks): void
     {
         foreach ($candlesticks as $attributes) {
             Candlestick::query()->updateOrCreate([

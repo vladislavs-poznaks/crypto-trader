@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Constants\Codes;
+use App\Constants\Code;
 use App\Models\Rate;
 use App\Services\BinanceService;
 use Illuminate\Console\Command;
@@ -31,11 +31,11 @@ class TraderRates extends Command
     public function handle()
     {
         $rates = [
-            Codes::BTC_BUSD->value => [
+            Code::BTC_BUSD->value => [
                 'source' => 'BUSD',
                 'target' => 'BTC',
             ],
-            Codes::ETH_BUSD->value => [
+            Code::ETH_BUSD->value => [
                 'source' => 'BUSD',
                 'target' => 'ETH',
             ],

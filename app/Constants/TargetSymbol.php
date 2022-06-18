@@ -2,7 +2,7 @@
 
 namespace App\Constants;
 
-enum Targets: string
+enum TargetSymbol: string
 {
     case BTC = 'BTC';
     case ETH = 'ETH';
