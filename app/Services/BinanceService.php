@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Constants\Code;
 use App\Constants\OrderStatus;
 use App\Models\Order;
+use App\Models\Rate;
 use Binance\API;
 
 class BinanceService implements ExchangeServiceInterface
@@ -18,7 +19,14 @@ class BinanceService implements ExchangeServiceInterface
 
     public function getPrice(string $symbol)
     {
-        return $this->api->price($symbol);
+        $price = $this->api->price($symbol);
+
+        Rate::create([
+            'code' => $symbol,
+            'rate' => $price,
+        ]);
+
+        return $price;
     }
 
     public function getPrices()
