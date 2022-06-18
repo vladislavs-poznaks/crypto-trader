@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Candlestick;
 use App\Models\TransferVolumeSum;
 
 class TransferVolumePredictionCalculationService
@@ -15,7 +14,7 @@ class TransferVolumePredictionCalculationService
         'minute' => 60
     ];
 
-    public function process()
+    public function process(): void
     {
         $chunks = TransferVolumeSum::query()
             ->whereNULL('calculation_index')
@@ -29,15 +28,15 @@ class TransferVolumePredictionCalculationService
         }
     }
 
-    protected function calculate(TransferVolumeSum $row)
+    protected function calculate(TransferVolumeSum $row): void
     {
-        $value = $this->calculateRSI($row);
+        $value = $this->calculateIndex($row);
 
         $row->calculation_index = $value;
         $row->save();
     }
 
-    protected function calculateRSI(TransferVolumeSum $row): ?float
+    protected function calculateIndex(TransferVolumeSum $row): ?float
     {
         $limit = $this->getSize($row->range);
 
@@ -53,10 +52,6 @@ class TransferVolumePredictionCalculationService
             return null;
         }
 
-        /** @var Candlestick $previousRow */
-        $previousRow = $pastRows->shift();
-
-
         $index = 0;
         foreach($pastRows as $pastRow) {
             if ($row->value > $pastRow->value) {
@@ -67,7 +62,8 @@ class TransferVolumePredictionCalculationService
         return $index/$limit;
     }
 
-    protected function getSize(string $range): int {
+    protected function getSize(string $range): int
+    {
         return $this->rangeSizes[$range]+1;
     }
 }

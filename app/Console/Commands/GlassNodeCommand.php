@@ -61,7 +61,7 @@ class GlassNodeCommand extends Command
         return 0;
     }
 
-    public function __invoke ()
+    public function __invoke()
     {
         return $this->handle();
     }
