@@ -15,6 +15,7 @@ abstract class CandlestickSeeder extends Seeder
         '1M' => Ranges::MONTH,
         '1w' => Ranges::WEEK,
         '1d' => Ranges::DAY,
+        '1h' => Ranges::HOUR,
         '1m' => Ranges::MINUTE,
     ];
 
