@@ -33,7 +33,7 @@ class TransferVolumeSumSeeder extends Seeder
 
         foreach ($this->targets as $symbol => $target) {
             foreach($this->ranges as $rangeString => $range) {
-                $result = $service->getTransferVolumeSms(
+                $result = $service->getTransferVolumeSums(
                     $symbol,
                     $rangeString,
                     '10years'
