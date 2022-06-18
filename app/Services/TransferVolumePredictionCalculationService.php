@@ -8,11 +8,11 @@ use App\Models\TransferVolumeSum;
 class TransferVolumePredictionCalculationService
 {
     private array $rangeSizes = [
-        'month' => 24,
-        'week' => 89,
-        'day' => 110,
-        'hour' => 72,
-        'minute' => 60
+        'month' => 12, // 1 year
+        'week' => 49, // 1 year
+        'day' => 90, // 3 x 3men
+        'hour' => 168, // 24 x 7 d
+        'minute' => 300 // 60 * 5 h
     ];
 
     public function process()
