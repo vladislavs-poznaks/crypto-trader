@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Carbon\Carbon;
-use App\Constants\Ranges;
-use App\Constants\Targets;
+use App\Constants\Range;
+use App\Constants\TargetSymbol;
 use App\Models\TransferVolumeSum;
 use App\Services\GlassnodeService;
 use Illuminate\Database\Seeder;
@@ -12,14 +12,14 @@ use Illuminate\Database\Seeder;
 class TransferVolumeSumSeeder extends Seeder
 {
     private array $ranges = [
-        '1month' => Ranges::MONTH,
-        '1w' => Ranges::WEEK,
-        '24h' => Ranges::DAY,
+        '1month' => Range::MONTH,
+        '1w' => Range::WEEK,
+        '24h' => Range::DAY,
     ];
 
     private array $targets = [
-        'BTC' => Targets::BTC,
-        'ETH' => Targets::ETH,
+        'BTC' => TargetSymbol::BTC,
+        'ETH' => TargetSymbol::ETH,
     ];
 
     /**

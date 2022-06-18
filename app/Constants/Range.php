@@ -2,7 +2,7 @@
 
 namespace App\Constants;
 
-enum Ranges: string
+enum Range: string
 {
     case MONTH = 'month';
     case WEEK = 'week';

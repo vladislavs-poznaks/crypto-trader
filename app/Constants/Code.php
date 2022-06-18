@@ -2,7 +2,7 @@
 
 namespace App\Constants;
 
-enum Codes: string
+enum Code: string
 {
     case BTC_BUSD = 'BTCBUSD';
     case ETH_BUSD = 'ETHBUSD';

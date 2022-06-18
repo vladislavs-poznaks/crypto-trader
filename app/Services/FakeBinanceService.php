@@ -2,16 +2,16 @@
 
 namespace App\Services;
 
-use App\Constants\Codes;
+use App\Constants\Code;
 use App\Constants\OrderSide;
 use App\Constants\OrderStatus;
 use App\Constants\OrderType;
 use App\Models\Order;
 use Illuminate\Support\Str;
 
-class FakeBinanceService extends BinanceService
+class FakeBinanceService extends BinanceService implements ExchangeServiceInterface
 {
-    public function buyLimitOrder(Codes $code, float $price, float $quantity)
+    public function buyLimitOrder(Code $code, float $price, float $quantity)
     {
         // Fakes limit order placement
         Order::create([
@@ -27,7 +27,7 @@ class FakeBinanceService extends BinanceService
         ]);
     }
 
-    public function sellLimitOrder(Codes $code, float $price, float $quantity)
+    public function sellLimitOrder(Code $code, float $price, float $quantity)
     {
         // Fakes limit order placement
         Order::create([

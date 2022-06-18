@@ -2,7 +2,7 @@
 
 namespace App\Constants;
 
-enum Sources: string
+enum SourceSymbol: string
 {
     case BUSD = 'BUSD';
 }
