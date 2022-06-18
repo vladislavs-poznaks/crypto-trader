@@ -7,61 +7,51 @@ use Carbon\Carbon;
 
 class BotService implements BotServiceInterface
 {
-    public function withCode(Code $code): self
+    private PredictionServiceInterface $service;
+    private ExchangeServiceInterface $exchange;
+
+    private Code $code;
+    private ?float $price;
+    private ?Carbon $datetime;
+
+    public function __construct(Code $code, ?float $price = null, ?Carbon $datetime = null)
     {
+        $this->service = app(PredictionServiceInterface::class);
+        $this->exchange = app(ExchangeServiceInterface::class);
+
         $this->code = $code;
-
-        return $this;
-    }
-
-    public function withPrice(float $price): self
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    public function withDatetime(Carbon $datetime): self
-    {
-        $this->datetime = $datetime;
-
-        return $this;
+        $this->price = $price ?? $this->exchange->getPrice($this->code);
+        $this->datetime = $datetime ?? now();
     }
 
     public function process(): void
     {
-        $service = new PredictionService($this->code, $this->price, $this->datetime);
+        $this->positionFull() ? $this->sell() : $this->buy();
+    }
 
-        // 1 Check if current position is full
-        if ($this->isPositionFilled()) {
-            $this->processForSell($service);
-        } else {
-            $this->processForBuy($service);
+    protected function buy(): void
+    {
+        if ($this->service->shouldBuy()) {
+            $this->exchange->buyLimitOrder($this->code, $this->price, $this->getOrderQuantity());
         }
     }
 
-    public function isPositionFilled(): bool
+    protected function sell(): void
+    {
+        if ($this->service->shouldSell()) {
+            $this->exchange->sellLimitOrder($this->code, $this->price, $this->getOrderQuantity());
+        }
+    }
+
+    protected function positionFull(): bool
     {
         // TODO Checks portfolio if position does not exceed 5% of portfolio
         return false;
     }
 
-    public function processForBuy(PredictionService $service): void
+    protected function getOrderQuantity(): float
     {
-        if (!$service->buy()) {
-            return;
-        }
-
-        $exchange = app(ExchangeServiceInterface::class);
-
-        $exchange->buyLimitOrder($this->code, $this->price, 1);
-    }
-
-    public function processForSell(PredictionService $service): void
-    {
-        if (!$service->sell()) {
-            return;
-        }
-        // TODO Checks portfolio if position does not exceed 5% of portfolio
+        // TODO Checks portfolio how much for current price we can buy to not exceed 5%
+        return 1.0;
     }
 }
