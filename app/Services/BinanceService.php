@@ -41,33 +41,25 @@ class BinanceService
 
     public function buyLimitOrder(Codes $code, float $price, float $quantity)
     {
-        // Fakes limit order placement
-        Order::create([
-            'order_id' => random_int(100000, 999999),
-            'client_order_id' => Str::random(10),
-            'side' => OrderSide::BUY,
-            'type' => OrderType::LIMIT,
-//            'status' => OrderStatus::PLACED,
-            'code' => $code,
-            'price' => $price,
-            'ordered_quantity' => $quantity,
-//            'executed_quantity' => 0,
-        ]);
+        // Real order goes here
     }
 
     public function sellLimitOrder(Codes $code, float $price, float $quantity)
     {
-        // Fakes limit order placement
-        Order::create([
-            'order_id' => random_int(100000, 999999),
-            'client_order_id' => Str::random(10),
-            'side' => OrderSide::SELL,
-            'type' => OrderType::LIMIT,
-//            'status' => OrderStatus::PLACED,
-            'code' => $code,
-            'price' => $price,
-            'ordered_quantity' => $quantity,
-//            'executed_quantity' => 0,
-        ]);
+        // Real order goes here
+    }
+
+    public function orderStatus(Order $order)
+    {
+        return $this->api->orderStatus($order->code->value, $order->order_id);
+    }
+
+    public function cancelOrder(Order $order)
+    {
+        if ($order->status === OrderStatus::CANCELED) {
+            return null;
+        }
+
+        return $this->api->cancel($order->code->value, $order->order_id);
     }
 }
