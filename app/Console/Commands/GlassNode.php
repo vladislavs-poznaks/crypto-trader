@@ -14,7 +14,7 @@ class GlassNode extends Command
      *
      * @var string
      */
-    protected $signature = 'glassnode:test {symbol=BTC} {range=1h} {dateFrom=1hour}';
+    protected $signature = 'glassnode:transferVolume {symbol=BTC} {range=1h} {dateFrom=1hour}';
 
     /**
      * The console command description.
