@@ -6,6 +6,8 @@ use App\Services\BotService;
 use App\Services\BotServiceInterface;
 use App\Services\ExchangeServiceInterface;
 use App\Services\FakeBinanceService;
+use App\Services\PredictionService;
+use App\Services\PredictionServiceInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -34,6 +36,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         $this->app->bind(ExchangeServiceInterface::class, FakeBinanceService::class);
+        $this->app->bind(PredictionServiceInterface::class, PredictionService::class);
         $this->app->bind(BotServiceInterface::class, BotService::class);
     }
 }
