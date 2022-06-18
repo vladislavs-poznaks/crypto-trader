@@ -17,12 +17,14 @@ class BinanceService implements ExchangeServiceInterface
         $this->api = new API(config('services.binance.key'), config('services.binance.secret'));
     }
 
-    public function getPrice(string $symbol)
+    public function getPrice(Code $code)
     {
-        $price = $this->api->price($symbol);
-
+        $price = $this->api->price($code->value);
+        
         Rate::create([
-            'code' => $symbol,
+            'code' => $code,
+            'source' => $code->source(),
+            'target' => $code->target(),
             'rate' => $price,
         ]);
 
