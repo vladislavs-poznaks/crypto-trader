@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('candlesticks', function (Blueprint $table) {
-            $table->decimal('calculation_RSI', 25, 5)->nullable()->default(null);
+        Schema::table('candlesticks', function (Blueprint $table) {
+//            $table->decimal('calculation_RSI', 25, 5)->nullable()->default(null);
         });
     }
 
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::create('candlesticks', function (Blueprint $table) {
-            $table->dropColumn('calculation_RSI');
+        Schema::table('candlesticks', function (Blueprint $table) {
+//            $table->dropColumn('calculation_RSI');
         });
     }
 };

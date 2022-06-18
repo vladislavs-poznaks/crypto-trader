@@ -32,6 +32,7 @@ return new class extends Migration
             $table->decimal('asset_buy_volume', 25, 5);
             $table->decimal('taker_buy_volume', 25, 5);
             $table->boolean('ignored');
+            $table->decimal('calculation_RSI', 25, 5)->nullable()->default(null);
             $table->timestamps();
         });
     }
