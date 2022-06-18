@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Constants\Code;
 use App\Services\BotServiceInterface;
-use App\Services\ExchangeServiceInterface;
 use Illuminate\Console\Command;
 
 class BotTradeCommand extends Command
@@ -31,15 +30,11 @@ class BotTradeCommand extends Command
     public function handle()
     {
         $code = Code::from($this->argument('code'));
+        $bot = app(BotServiceInterface::class, [
+            'code' => $code
+        ]);
 
-        $exchange = app(ExchangeServiceInterface::class);
-        $bot = app(BotServiceInterface::class);
-
-        $bot
-            ->withCode($code)
-            ->withPrice($exchange->getPrice($code))
-            ->withDatetime(now())
-            ->process();
+        echo $bot->process() . PHP_EOL;
 
         return 0;
     }

@@ -14,33 +14,42 @@ class BotService implements BotServiceInterface
     private ?float $price;
     private ?Carbon $datetime;
 
-    public function __construct(Code $code, ?float $price = null, ?Carbon $datetime = null)
+    public function __construct(Code $code, ?float $price = null, ?Carbon $datetime = null, ?PredictionService $service = null)
     {
-        $this->service = app(PredictionServiceInterface::class);
         $this->exchange = app(ExchangeServiceInterface::class);
 
         $this->code = $code;
         $this->price = $price ?? $this->exchange->getPrice($this->code);
         $this->datetime = $datetime ?? now();
+
+        $this->service = $service ?? app(PredictionServiceInterface::class, [
+            'code' => $this->code,
+            'price' => $this->price,
+            'datetime' => $this->datetime
+        ]);
     }
 
-    public function process(): void
+    public function process(): string
     {
-        $this->positionFull() ? $this->sell() : $this->buy();
+        return $this->positionFull() ? $this->sell() : $this->buy();
     }
 
-    protected function buy(): void
+    protected function buy(): string
     {
         if ($this->service->shouldBuy()) {
-            $this->exchange->buyLimitOrder($this->code, $this->price, $this->getOrderQuantity());
+            return $this->exchange->buyLimitOrder($this->code, $this->price, $this->getOrderQuantity());
         }
+
+        return 'No buy order';
     }
 
-    protected function sell(): void
+    protected function sell(): string
     {
         if ($this->service->shouldSell()) {
-            $this->exchange->sellLimitOrder($this->code, $this->price, $this->getOrderQuantity());
+            return $this->exchange->sellLimitOrder($this->code, $this->price, $this->getOrderQuantity());
         }
+
+        return 'No sell order';
     }
 
     protected function positionFull(): bool

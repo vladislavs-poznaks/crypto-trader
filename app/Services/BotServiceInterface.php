@@ -4,5 +4,5 @@ namespace App\Services;
 
 interface BotServiceInterface
 {
-    public function process(): void;
+    public function process(): string;
 }

@@ -14,7 +14,7 @@ class FakeBinanceService extends BinanceService implements ExchangeServiceInterf
     public function buyLimitOrder(Code $code, float $price, float $quantity)
     {
         // Fakes limit order placement
-        Order::create([
+        $order = Order::create([
             'order_id' => random_int(100000, 999999),
             'client_order_id' => Str::random(10),
             'side' => OrderSide::BUY,
@@ -25,12 +25,14 @@ class FakeBinanceService extends BinanceService implements ExchangeServiceInterf
             'ordered_quantity' => $quantity,
 //            'executed_quantity' => 0,
         ]);
+
+        return $order->info;
     }
 
     public function sellLimitOrder(Code $code, float $price, float $quantity)
     {
         // Fakes limit order placement
-        Order::create([
+        $order = Order::create([
             'order_id' => random_int(100000, 999999),
             'client_order_id' => Str::random(10),
             'side' => OrderSide::SELL,
@@ -41,6 +43,8 @@ class FakeBinanceService extends BinanceService implements ExchangeServiceInterf
             'ordered_quantity' => $quantity,
 //            'executed_quantity' => 0,
         ]);
+
+        return $order->info;
     }
 
     public function orderStatus(Order $order)
