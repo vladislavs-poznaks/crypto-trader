@@ -23,7 +23,9 @@ class PredictionServiceTest extends TestCase
 
         // PREVIOUS PRICE / CURRENT PRICE = 18.000 / 17.000 = 1.058
 
-        $service = new PredictionService($code, $price, $datetime, $candlestick);
+        $service = new PredictionService($code, $price, $datetime);
+
+        $service->withCandlestick($candlestick);
 
         $this->assertTrue($service->shouldBuy());
         $this->assertFalse($service->shouldSell());
@@ -43,7 +45,9 @@ class PredictionServiceTest extends TestCase
 
         // PREVIOUS PRICE / CURRENT PRICE = 18.000 / 19.000 = 0.947
 
-        $service = new PredictionService($code, $price, $datetime, $candlestick);
+        $service = new PredictionService($code, $price, $datetime);
+
+        $service->withCandlestick($candlestick);
 
         $this->assertFalse($service->shouldBuy());
         $this->assertTrue($service->shouldSell());
@@ -58,12 +62,14 @@ class PredictionServiceTest extends TestCase
 
         $candlestick = new Candlestick([
             'code' => $code,
-            'open' => 18.000
+            'open' => 18.000,
         ]);
 
         // PREVIOUS PRICE / CURRENT PRICE = 18.000 / 18.000 = 1.000
 
-        $service = new PredictionService($code, $price, $datetime, $candlestick);
+        $service = new PredictionService($code, $price, $datetime);
+
+        $service->withCandlestick($candlestick);
 
         $this->assertFalse($service->shouldBuy());
         $this->assertFalse($service->shouldSell());
