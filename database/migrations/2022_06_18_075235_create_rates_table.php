@@ -16,8 +16,10 @@ return new class extends Migration
         Schema::create('rates', function (Blueprint $table) {
             $table->uuid('id');
             $table->string('code', 15);
-            $table->string('source', 10);
-            $table->string('target', 10);
+            $table->string('source', 10)
+                ->nullable();
+            $table->string('target', 10)
+                ->nullable();
             $table->decimal('rate', 25, 15);
             $table->timestamps();
         });
