@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CandlestickDaysSeeder::class);
         $this->call(CandlestickHoursSeeder::class);
         $this->call(CandlestickMinutesSeeder::class);
+        $this->call(TransferVolumeSumSeeder::class);
     }
 }
