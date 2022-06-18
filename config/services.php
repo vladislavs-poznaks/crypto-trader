@@ -36,4 +36,7 @@ return [
         'secret' => env('BINANCE_SECRET'),
     ],
 
+    'glassnode' => [
+        'key' => env('GLASSNODE_KEY'),
+    ],
 ];
