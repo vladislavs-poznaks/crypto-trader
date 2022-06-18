@@ -30,6 +30,7 @@ class Candlestick extends Model
         'asset_buy_volume',
         'taker_buy_volume',
         'ignored',
+        'calculation_RSI',
     ];
 
     protected $casts = [
