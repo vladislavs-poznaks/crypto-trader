@@ -11,7 +11,7 @@ class TransferVolumePredictionService
         string $symbol,
         int $days,
         string $baseDate = null
-    ): float {
+    ): ?float {
         if ($baseDate === null) {
             $baseDate = date('Y-m-d');
         }
@@ -26,6 +26,10 @@ class TransferVolumePredictionService
             ])
             ->take($days + 1)
             ->get();
+
+        if (count($transferVolumeSums) < $days + 1) {
+            return null;
+        }
 
         $index = 0;
         $baseDay = $transferVolumeSums[0];
@@ -54,7 +58,7 @@ class TransferVolumePredictionService
         string $symbol,
         int $weeks,
         string $baseDate = null
-    ): float {
+    ): ?float {
         if ($baseDate === null) {
             $baseDate = date('Y-m-d');
         }
@@ -69,6 +73,10 @@ class TransferVolumePredictionService
             ])
             ->take($weeks + 1)
             ->get();
+
+        if (count($transferVolumeSums) < $weeks + 1) {
+            return null;
+        }
 
         $index = 0;
         $baseWeek = $transferVolumeSums[0];
@@ -97,7 +105,7 @@ class TransferVolumePredictionService
         string $symbol,
         int $months,
         string $baseDate = null
-    ): float {
+    ): ?float {
         if ($baseDate === null) {
             $baseDate = date('Y-m-d');
         }
@@ -113,9 +121,12 @@ class TransferVolumePredictionService
             ->take($months + 1)
             ->get();
 
+        if (count($transferVolumeSums) < $months + 1) {
+            return null;
+        }
+
         $index = 0;
         $baseMonth = $transferVolumeSums[0];
-
 
         for ($i = 1; $i <= $months; $i++) {
             if ($baseMonth->value > $transferVolumeSums[$i]->value) {
