@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use App\Models\TransferVolumeSum;
 use App\Services\GlassnodeService;
 
-class GlassNode extends Command
+class GlassNodeCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -21,7 +21,18 @@ class GlassNode extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Fetch transfer volumes from Glassnode';
+    private string $symbol;
+    private string $range;
+    private string $dateFrom;
+
+    public function __construct(string $symbol = 'BTC', string $range = '1h', string $dateFrom = '1hour')
+    {
+        $this->symbol = $symbol;
+        $this->range = $range;
+        $this->dateFrom = $dateFrom;
+        parent::__construct();
+    }
 
     /**
      * Execute the console command.
@@ -32,9 +43,9 @@ class GlassNode extends Command
     {
         $service = app(GlassnodeService::class);
 
-        $symbol = $this->argument('symbol');
-        $range = $this->argument('range');
-        $dateFrom = $this->argument('dateFrom');
+        $symbol = $this->symbol;
+        $range = $this->range;
+        $dateFrom = $this->dateFrom;
 
         $result = $service->getTransferVolumeSums($symbol, $range, $dateFrom);
 
@@ -48,5 +59,10 @@ class GlassNode extends Command
         }
 
         return 0;
+    }
+
+    public function __invoke()
+    {
+        return $this->handle();
     }
 }

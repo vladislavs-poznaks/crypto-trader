@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('value', 25, 15);
             $table->timestamp('timestamp');
             $table->string('range', 15);
-            $table->decimal('calculation_index', 25, 15);
+            $table->decimal('calculation_index', 25, 15)->nullable()->default(null);
             $table->timestamps();
         });
     }
