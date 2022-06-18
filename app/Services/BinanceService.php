@@ -20,7 +20,7 @@ class BinanceService implements ExchangeServiceInterface
     public function getPrice(Code $code)
     {
         $price = $this->api->price($code->value);
-        
+
         Rate::create([
             'code' => $code,
             'source' => $code->source(),
