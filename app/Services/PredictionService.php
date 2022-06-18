@@ -3,7 +3,10 @@
 namespace App\Services;
 
 use App\Constants\Code;
+use App\Constants\Range;
+use App\Models\Candlestick;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
 class PredictionService implements PredictionServiceInterface
 {
@@ -15,13 +18,25 @@ class PredictionService implements PredictionServiceInterface
 
     public function buy(): bool
     {
-        // TODO: Implement buy() method.
-        return true;
+        $candlestick = $this->getCandlestick();
+
+        return $candlestick->open / $this->price > 1.05;
     }
 
     public function sell(): bool
     {
-        // TODO: Implement sell() method.
-        return false;
+        $candlestick = $this->getCandlestick();
+
+        return $candlestick->open / $this->price < 0.90;
+    }
+
+    protected function getCandlestick(): ?Model
+    {
+        return Candlestick::query()
+            ->where('code', $this->code)
+            ->where('range', Range::MONTH)
+            ->where('open_time', '<', $this->datetime->subMonth())
+            ->latest('open_time')
+            ->first();
     }
 }

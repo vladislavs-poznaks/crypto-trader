@@ -19,7 +19,10 @@ class Kernel extends ConsoleKernel
         $codes = Code::cases();
 
         foreach ($codes as $code) {
-            $schedule->command("vev:rates {$code->value}")
+//            $schedule->command("vev:rates {$code->value}")
+//                ->everyMinute();
+
+            $schedule->command("vev:trade {$code->value}")
                 ->everyMinute();
         }
     }

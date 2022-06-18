@@ -30,15 +30,14 @@ class BotTradeCommand extends Command
      */
     public function handle()
     {
-        $service = app(ExchangeServiceInterface::class);
-
         $code = Code::from($this->argument('code'));
 
+        $exchange = app(ExchangeServiceInterface::class);
         $bot = app(BotServiceInterface::class);
 
         $bot
             ->withCode($code)
-            ->withPrice($service->getPrice($code))
+            ->withPrice($exchange->getPrice($code))
             ->withDatetime(now())
             ->process();
 
