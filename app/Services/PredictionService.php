@@ -32,7 +32,7 @@ class PredictionService implements PredictionServiceInterface
 
     protected function getCandlestick()
     {
-        if ($this->candlestick) {
+        if ($this->candlestick->exists) {
             return $this->candlestick;
         }
 
