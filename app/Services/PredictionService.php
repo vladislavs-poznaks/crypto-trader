@@ -9,12 +9,15 @@ use Carbon\Carbon;
 
 class PredictionService implements PredictionServiceInterface
 {
+    private ?Candlestick $candlestick;
+
     public function __construct(
         private Code   $code,
         private float  $price,
         private Carbon $datetime,
-//        private ?Candlestick $candlestick = null,
-    ) {}
+    ) {
+        $this->candlestick = null;
+    }
 
     public function withCandlestick(Candlestick $candlestick): self
     {
@@ -26,6 +29,10 @@ class PredictionService implements PredictionServiceInterface
     {
         $candlestick = $this->getCandlestick();
 
+        if (is_null($candlestick)) {
+            return false;
+        }
+
         if ($candlestick->open / $this->price < 1.05) {
             return false;
         }
@@ -36,6 +43,10 @@ class PredictionService implements PredictionServiceInterface
     public function shouldSell(): bool
     {
         $candlestick = $this->getCandlestick();
+
+        if (is_null($candlestick)) {
+            return false;
+        }
 
         if ($candlestick->open / $this->price > 0.95) {
             return false;
