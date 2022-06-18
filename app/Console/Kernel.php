@@ -15,8 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('trader:rates')
-             ->everyMinute();
+//         $schedule->command('trader:rates')
+//             ->everyMinute();
     }
 
     /**

@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Console\Commands\BinancePricing;
 use App\Services\BotService;
 use App\Services\BotServiceInterface;
 use App\Services\ExchangeServiceInterface;
@@ -28,10 +27,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // TODO Is this needed?
         if ($this->app->runningInConsole()) {
             $this->commands([
-                BinancePricing::class,
+
             ]);
         }
 
