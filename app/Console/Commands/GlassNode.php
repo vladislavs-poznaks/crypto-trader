@@ -39,7 +39,6 @@ class GlassNode extends Command
         $result = $service->getTransferVolumeSums($symbol, $range, $dateFrom);
 
         foreach($result as $transferVolume) {
-            var_dump($transferVolume);
             TransferVolumeSum::create([
                 'code' => $symbol,
                 'value' => $transferVolume->v,
