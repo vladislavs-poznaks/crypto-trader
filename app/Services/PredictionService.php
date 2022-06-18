@@ -13,26 +13,40 @@ class PredictionService implements PredictionServiceInterface
         private Code   $code,
         private float  $price,
         private Carbon $datetime,
-        private ?Candlestick $candlestick = null,
+//        private ?Candlestick $candlestick = null,
     ) {}
+
+    public function withCandlestick(Candlestick $candlestick): self
+    {
+        $this->candlestick = $candlestick;
+        return $this;
+    }
 
     public function shouldBuy(): bool
     {
         $candlestick = $this->getCandlestick();
 
-        return $candlestick->open / $this->price > 1.05;
+        if ($candlestick->open / $this->price < 1.05) {
+            return false;
+        }
+
+        return true;
     }
 
     public function shouldSell(): bool
     {
         $candlestick = $this->getCandlestick();
 
-        return $candlestick->open / $this->price < 0.95;
+        if ($candlestick->open / $this->price > 0.95) {
+            return false;
+        }
+
+        return true;
     }
 
     protected function getCandlestick()
     {
-        if ($this->candlestick->exists) {
+        if ($this->candlestick) {
             return $this->candlestick;
         }
 
