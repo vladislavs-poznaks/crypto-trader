@@ -106,19 +106,19 @@ class PredictionService implements PredictionServiceInterface
 
         $monthlyCandle = TransferVolumeSum::query()
             ->where('code', $target)
-            ->where('range', '1month')
+            ->where('range', Range::MONTH)
             ->latest('timestamp')
             ->first();
 
         $weeklyCandle = TransferVolumeSum::query()
             ->where('code', $target)
-            ->where('range', '1week')
+            ->where('range', Range::WEEK)
             ->latest('timestamp')
             ->first();
 
         $dailyCandle = TransferVolumeSum::query()
             ->where('code', $target)
-            ->where('range', '24h')
+            ->where('range', Range::DAY)
             ->latest('timestamp')
             ->first();
 
@@ -128,9 +128,9 @@ class PredictionService implements PredictionServiceInterface
         }
 
         // Calculate TVP based on coeficient from multiple TVP
-        $monthlyCandleTVP = 0.25 * $monthlyCandle->calculation_index;
-        $weeklyCandleTVP = 0.25 * $weeklyCandle->calculation_index;
-        $dailyCandleTVP = 0.3 * $dailyCandle->calculation_index;
+        $monthlyCandleTVP = 0.3 * $monthlyCandle->calculation_index;
+        $weeklyCandleTVP = 0.3 * $weeklyCandle->calculation_index;
+        $dailyCandleTVP = 0.4 * $dailyCandle->calculation_index;
 
         // Overall Value
         return $monthlyCandleTVP + $weeklyCandleTVP + $dailyCandleTVP;
