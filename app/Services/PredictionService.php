@@ -25,6 +25,8 @@ class PredictionService implements PredictionServiceInterface
 
     public function shouldBuy(): bool
     {
+        dump('TVP',$this->getTVP());
+        dump('RSI',$this->getRSI());
         return $this->getRSIISLow() && $this->getTVPIsLow();
     }
 
@@ -49,30 +51,35 @@ class PredictionService implements PredictionServiceInterface
     protected function getRSI(): float
     {
         $monthlyCandle = Candlestick::query()
+            ->where('close_time', '<=', $this->datetime)
             ->where('code', $this->code)
             ->where('range', Range::MONTH)
             ->latest('close_time')
             ->first();
 
         $weeklyCandle = Candlestick::query()
+            ->where('close_time', '<=', $this->datetime)
             ->where('code', $this->code)
             ->where('range', Range::WEEK)
             ->latest('close_time')
             ->first();
 
         $dailyCandle = Candlestick::query()
+            ->where('close_time', '<=', $this->datetime)
             ->where('code', $this->code)
             ->where('range', Range::DAY)
             ->latest('close_time')
             ->first();
 
         $hourlyCandle = Candlestick::query()
+            ->where('close_time', '<=', $this->datetime)
             ->where('code', $this->code)
             ->where('range', Range::HOUR)
             ->latest('close_time')
             ->first();
 
         $minuteCandle = Candlestick::query()
+            ->where('close_time', '<=', $this->datetime)
             ->where('code', $this->code)
             ->where('range', Range::MINUTE)
             ->latest('close_time')
@@ -80,6 +87,7 @@ class PredictionService implements PredictionServiceInterface
 
         // FAILSAFE
         if (empty($monthlyCandle) || empty($weeklyCandle) || empty($dailyCandle) || empty($hourlyCandle) || empty($minuteCandle)) {
+            dump(json_encode([$monthlyCandle, $weeklyCandle, $dailyCandle, $hourlyCandle, $minuteCandle]));
             return 200;
         }
 
@@ -124,6 +132,7 @@ class PredictionService implements PredictionServiceInterface
 
         // FAILSAFE
         if (empty($monthlyCandle) || empty($weeklyCandle) || empty($dailyCandle)) {
+            dump(json_encode([$monthlyCandle, $weeklyCandle, $dailyCandle]));
             return 2;
         }
 
