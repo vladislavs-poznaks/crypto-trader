@@ -91,11 +91,11 @@ class PredictionService implements PredictionServiceInterface
         }
 
         // Calculate RSI based on coeficient from multiple RSI
-        $monthlyCandleRSI = 0.25 * $monthlyCandle->calculation_RSA;
-        $weeklyCandleRSI = 0.25 * $weeklyCandle->calculation_RSA;
-        $dailyCandleRSI = 0.3 * $dailyCandle->calculation_RSA;
-        $hourlyCandleRSI = 0.1 * $hourlyCandle->calculation_RSA;
-        $minuteCandleRSI = 0.1 * $minuteCandle->calculation_RSA;
+        $monthlyCandleRSI = 0.25 * $monthlyCandle->calculation_RSI;
+        $weeklyCandleRSI = 0.25 * $weeklyCandle->calculation_RSI;
+        $dailyCandleRSI = 0.3 * $dailyCandle->calculation_RSI;
+        $hourlyCandleRSI = 0.1 * $hourlyCandle->calculation_RSI;
+        $minuteCandleRSI = 0.1 * $minuteCandle->calculation_RSI;
 
         // Overall RSI
         return $monthlyCandleRSI + $weeklyCandleRSI + $dailyCandleRSI + $hourlyCandleRSI + $minuteCandleRSI;

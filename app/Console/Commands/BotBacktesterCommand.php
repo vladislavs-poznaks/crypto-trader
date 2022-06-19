@@ -40,6 +40,7 @@ class BotBacktesterCommand extends Command
         $candlesticks = Candlestick::query()
             ->where('code', $code)
             ->where('range', $range)
+            ->orderBy('close_time', 'ASC')
             ->cursor();
 
         foreach ($candlesticks as $candlestick) {
@@ -74,7 +75,7 @@ class BotBacktesterCommand extends Command
             $bot = app(BotServiceInterface::class, [
                 'code' => $code,
                 'price' => $candlestick->open,
-                'datetime' => $candlestick->open_time
+                'datetime' => $candlestick->close_time
             ]);
 
             $bot->process();
