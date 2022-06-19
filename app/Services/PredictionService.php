@@ -128,9 +128,9 @@ class PredictionService implements PredictionServiceInterface
         }
 
         // Calculate TVP based on coeficient from multiple TVP
-        $monthlyCandleTVP = 0.25 * $monthlyCandle->calculation_index;
-        $weeklyCandleTVP = 0.25 * $weeklyCandle->calculation_index;
-        $dailyCandleTVP = 0.3 * $dailyCandle->calculation_index;
+        $monthlyCandleTVP = 0.3 * $monthlyCandle->calculation_index;
+        $weeklyCandleTVP = 0.3 * $weeklyCandle->calculation_index;
+        $dailyCandleTVP = 0.4 * $dailyCandle->calculation_index;
 
         // Overall Value
         return $monthlyCandleTVP + $weeklyCandleTVP + $dailyCandleTVP;
