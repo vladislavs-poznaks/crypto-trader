@@ -25,8 +25,6 @@ class PredictionService implements PredictionServiceInterface
 
     public function shouldBuy(): bool
     {
-        dump('TVP',$this->getTVP());
-        dump('RSI',$this->getRSI());
         return $this->getRSIISLow() && $this->getTVPIsLow();
     }
 
@@ -109,7 +107,7 @@ class PredictionService implements PredictionServiceInterface
 
     protected function getTVP(): float
     {
-        $target = $this->code->source();
+        $target = $this->code->target();
 
         $monthlyCandle = TransferVolumeSum::query()
             ->where('code', $target)
