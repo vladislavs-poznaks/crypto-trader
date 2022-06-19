@@ -107,18 +107,21 @@ class PredictionService implements PredictionServiceInterface
         $monthlyCandle = TransferVolumeSum::query()
             ->where('code', $target)
             ->where('range', Range::MONTH)
+            ->where('timestamp','<=',$this->datetime)
             ->latest('timestamp')
             ->first();
 
         $weeklyCandle = TransferVolumeSum::query()
             ->where('code', $target)
             ->where('range', Range::WEEK)
+            ->where('timestamp','<=',$this->datetime)
             ->latest('timestamp')
             ->first();
 
         $dailyCandle = TransferVolumeSum::query()
             ->where('code', $target)
             ->where('range', Range::DAY)
+            ->where('timestamp','<=',$this->datetime)
             ->latest('timestamp')
             ->first();
 
