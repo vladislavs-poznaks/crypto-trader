@@ -36,13 +36,13 @@ class PredictionService implements PredictionServiceInterface
     // Check if asset is overbought
     protected function getRSIIsHigh(): bool
     {
-        return $this->getRSI() > 75;
+        return $this->getRSI() > 75.0;
     }
 
     // Check if  asset is oversold.
     protected function getRSIIsLow(): bool
     {
-        return $this->getRSI() < 25;
+        return $this->getRSI() < 25.0;
     }
 
     // RSI is from 0 to 100
@@ -80,7 +80,7 @@ class PredictionService implements PredictionServiceInterface
 
         // FAILSAFE
         if (empty($monthlyCandle) || empty($weeklyCandle) || empty($dailyCandle) || empty($hourlyCandle) || empty($minuteCandle)) {
-            return 200;
+            return 200.0;
         }
 
         // Calculate RSI based on coeficient from multiple RSI
@@ -124,7 +124,7 @@ class PredictionService implements PredictionServiceInterface
 
         // FAILSAFE
         if (empty($monthlyCandle) || empty($weeklyCandle) || empty($dailyCandle)) {
-            return 2;
+            return 2.0;
         }
 
         // Calculate TVP based on coeficient from multiple TVP
