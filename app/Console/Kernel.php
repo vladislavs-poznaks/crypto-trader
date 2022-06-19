@@ -43,13 +43,13 @@ class Kernel extends ConsoleKernel
             $schedule->call(new TransferVolumePredictionCalculationCommand)
                 ->everyMinute();
 
-            $schedule->call(new GlassNodeCommand('BTC', '24h', '1day'))
+            $schedule->call(new GlassNodeCommand($code->target(), '24h', '1day'))
                 ->daily();
 
-            $schedule->call(new GlassNodeCommand('BTC', '1w', '1week'))
+            $schedule->call(new GlassNodeCommand($code->target(), '1w', '1week'))
                 ->weekly();
 
-            $schedule->call(new GlassNodeCommand('BTC', '1month', '1month'))
+            $schedule->call(new GlassNodeCommand($code->target(), '1month', '1month'))
                 ->monthly();
         }
     }
