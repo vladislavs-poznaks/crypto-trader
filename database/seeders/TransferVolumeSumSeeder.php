@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Carbon\Carbon;
 use App\Constants\Range;
-use App\Constants\TargetSymbol;
+use App\Constants\Symbol;
 use App\Models\TransferVolumeSum;
 use App\Services\GlassnodeService;
 use Illuminate\Database\Seeder;
@@ -18,8 +18,8 @@ class TransferVolumeSumSeeder extends Seeder
     ];
 
     private array $targets = [
-        'BTC' => TargetSymbol::BTC,
-        'ETH' => TargetSymbol::ETH,
+        'BTC' => Symbol::BTC,
+        'ETH' => Symbol::ETH,
     ];
 
     /**

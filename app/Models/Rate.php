@@ -3,8 +3,7 @@
 namespace App\Models;
 
 use App\Constants\Code;
-use App\Constants\SourceSymbol;
-use App\Constants\TargetSymbol;
+use App\Constants\Symbol;
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +21,7 @@ class Rate extends Model
 
     protected $casts = [
         'code' => Code::class,
-        'source' => SourceSymbol::class,
-        'target' => TargetSymbol::class,
+        'source' => Symbol::class,
+        'target' => Symbol::class,
     ];
 }
