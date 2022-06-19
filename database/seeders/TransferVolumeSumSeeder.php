@@ -55,7 +55,7 @@ class TransferVolumeSumSeeder extends Seeder
                 'code' => $symbol,
                 'value' => $transferVolume->v,
                 'timestamp' => Carbon::createFromTimestamp($transferVolume->t),
-                'range' => $range,
+                'range' => $this->ranges[$range],
             ]);
         }
     }
