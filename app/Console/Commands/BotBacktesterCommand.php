@@ -86,6 +86,10 @@ class BotBacktesterCommand extends Command
         $sellSum = Order::query()
             ->sum('sell_price');
 
+        if ($sellSum === 0 || $buySum === 0) {
+            return 0;
+        }
+
         $profitability = $sellSum / $buySum;
 
         $color = $profitability > 1 ? 'green' : 'red';
