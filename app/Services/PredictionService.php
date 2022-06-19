@@ -38,13 +38,13 @@ class PredictionService implements PredictionServiceInterface
     // Check if asset is overbought
     protected function getRSIIsHigh(): bool
     {
-        return $this->getRSI() > 75;
+        return $this->getRSI() > 75.0;
     }
 
     // Check if  asset is oversold.
     protected function getRSIIsLow(): bool
     {
-        return $this->getRSI() < 25;
+        return $this->getRSI() < 25.0;
     }
 
     // RSI is from 0 to 100
@@ -87,8 +87,7 @@ class PredictionService implements PredictionServiceInterface
 
         // FAILSAFE
         if (empty($monthlyCandle) || empty($weeklyCandle) || empty($dailyCandle) || empty($hourlyCandle) || empty($minuteCandle)) {
-            dump(json_encode([$monthlyCandle, $weeklyCandle, $dailyCandle, $hourlyCandle, $minuteCandle]));
-            return 200;
+            return 200.0;
         }
 
         // Calculate RSI based on coeficient from multiple RSI
@@ -115,25 +114,27 @@ class PredictionService implements PredictionServiceInterface
         $monthlyCandle = TransferVolumeSum::query()
             ->where('code', $target)
             ->where('range', Range::MONTH)
+            ->where('timestamp','<=',$this->datetime)
             ->latest('timestamp')
             ->first();
 
         $weeklyCandle = TransferVolumeSum::query()
             ->where('code', $target)
             ->where('range', Range::WEEK)
+            ->where('timestamp','<=',$this->datetime)
             ->latest('timestamp')
             ->first();
 
         $dailyCandle = TransferVolumeSum::query()
             ->where('code', $target)
             ->where('range', Range::DAY)
+            ->where('timestamp','<=',$this->datetime)
             ->latest('timestamp')
             ->first();
 
         // FAILSAFE
         if (empty($monthlyCandle) || empty($weeklyCandle) || empty($dailyCandle)) {
-            dump(json_encode([$monthlyCandle, $weeklyCandle, $dailyCandle]));
-            return 2;
+            return 2.0;
         }
 
         // Calculate TVP based on coeficient from multiple TVP
