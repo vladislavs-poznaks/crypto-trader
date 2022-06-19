@@ -44,7 +44,7 @@ class TransferVolumePredictionCalculationService
             ->where('code', $row->code)
             ->where('range', $row->range)
             ->where('timestamp', '<=',$row->timestamp)
-            ->orderBy('timestmap','desc')
+            ->orderBy('timestamp','desc')
             ->limit($limit)
             ->get();
 
