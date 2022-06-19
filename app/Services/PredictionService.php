@@ -78,8 +78,9 @@ class PredictionService implements PredictionServiceInterface
             ->latest('close_time')
             ->first();
 
-        if (empty($monthlyCandle) || empty($weeklyCandle) || empty($dailyCandle) || empty($hourlyCandle) || empty($dailyCandle)) {
-            return false;
+        // FAILSAFE
+        if (empty($monthlyCandle) || empty($weeklyCandle) || empty($dailyCandle) || empty($hourlyCandle) || empty($minuteCandle)) {
+            return 200;
         }
 
         // Calculate RSI based on coeficient from multiple RSI
@@ -105,46 +106,33 @@ class PredictionService implements PredictionServiceInterface
 
         $monthlyCandle = TransferVolumeSum::query()
             ->where('code', $target)
-            ->where('range', Range::MONTH)
+            ->where('range', '1month')
             ->latest('timestamp')
             ->first();
 
         $weeklyCandle = TransferVolumeSum::query()
             ->where('code', $target)
-            ->where('range', Range::WEEK)
+            ->where('range', '1week')
             ->latest('timestamp')
             ->first();
 
         $dailyCandle = TransferVolumeSum::query()
             ->where('code', $target)
-            ->where('range', Range::DAY)
+            ->where('range', '24h')
             ->latest('timestamp')
             ->first();
 
-        $hourlyCandle = TransferVolumeSum::query()
-            ->where('code', $target)
-            ->where('range', Range::HOUR)
-            ->latest('timestamp')
-            ->first();
-
-        $minuteCandle = TransferVolumeSum::query()
-            ->where('code', $target)
-            ->where('range', Range::MINUTE)
-            ->latest('timestamp')
-            ->first();
-
-        if (empty($monthlyCandle) || empty($weeklyCandle) || empty($dailyCandle) || empty($hourlyCandle) || empty($dailyCandle)) {
-            return false;
+        // FAILSAFE
+        if (empty($monthlyCandle) || empty($weeklyCandle) || empty($dailyCandle)) {
+            return 2;
         }
 
         // Calculate TVP based on coeficient from multiple TVP
         $monthlyCandleTVP = 0.25 * $monthlyCandle->calculation_index;
         $weeklyCandleTVP = 0.25 * $weeklyCandle->calculation_index;
         $dailyCandleTVP = 0.3 * $dailyCandle->calculation_index;
-        $hourlyCandleTVP = 0.1 * $hourlyCandle->calculation_index;
-        $minuteCandleTVP = 0.1 * $minuteCandle->calculation_index;
 
         // Overall Value
-        return $monthlyCandleTVP + $weeklyCandleTVP + $dailyCandleTVP + $hourlyCandleTVP + $minuteCandleTVP;
+        return $monthlyCandleTVP + $weeklyCandleTVP + $dailyCandleTVP;
     }
 }
