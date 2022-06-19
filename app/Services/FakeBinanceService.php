@@ -22,6 +22,8 @@ class FakeBinanceService extends BinanceService implements ExchangeServiceInterf
 //            'status' => OrderStatus::PLACED,
             'code' => $code,
             'price' => $price,
+            'loss_limit_price' => $price * 0.91,
+            'profit_limit_price' => $price * 1.073,
             'ordered_quantity' => $quantity,
 //            'executed_quantity' => 0,
         ]);

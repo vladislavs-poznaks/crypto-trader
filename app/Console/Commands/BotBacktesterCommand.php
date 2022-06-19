@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Constants\Code;
 use App\Constants\Range;
 use App\Models\Candlestick;
+use App\Models\Order;
 use App\Services\BotServiceInterface;
 use Illuminate\Console\Command;
 
@@ -31,6 +32,8 @@ class BotBacktesterCommand extends Command
      */
     public function handle()
     {
+        Order::query()->forceDelete();
+
         $code = Code::from($this->argument('code'));
         $range = Range::from($this->argument('range'));
 
@@ -44,6 +47,30 @@ class BotBacktesterCommand extends Command
                 continue;
             }
 
+            $orders = Order::query()
+                ->where('code', $code)
+                ->whereNull('sell_price')
+                ->get();
+
+            foreach ($orders as $order) {
+                echo "Diff: ". ($candlestick->open / $order->price) . PHP_EOL;
+
+                // Sell with profit
+                if ($candlestick->open > $order->profit_limit_price) {
+                    $this->line('<fg=green>SELL WITH PROFIT.</>');
+                    $order->update([
+                        'sell_price' => $candlestick->open
+                    ]);
+                }
+                // Sell with loss
+                if ($candlestick->open < $order->loss_limit_price) {
+                    $this->line('<fg=red>SELL WITH LOSS.</>');
+                    $order->update([
+                        'sell_price' => $candlestick->open
+                    ]);
+                }
+            }
+
             $bot = app(BotServiceInterface::class, [
                 'code' => $code,
                 'price' => $candlestick->open,
@@ -52,6 +79,18 @@ class BotBacktesterCommand extends Command
 
             $bot->process();
         }
+
+        $buySum = Order::query()
+            ->sum('price');
+
+        $sellSum = Order::query()
+            ->sum('sell_price');
+
+        $profitability = $sellSum / $buySum;
+
+        $color = $profitability > 1 ? 'green' : 'red';
+
+        $this->line("<bg={$color}>Profitability: {$profitability}</>");
 
         return 0;
     }
